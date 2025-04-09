@@ -3,10 +3,19 @@ const router = express.Router();
 
 const posts = require("../data/posts");
 const error = require("../utilities/error");
+const { route } = require("./users");
 
 router
   .route("/")
   .get((req, res) => {
+    //parsing userId in url to integer 
+    const userId = parseInt(req.query.userId);
+    //GET /api/posts?userId=<VALUE>
+    if(userId){
+      const filteredPosts = posts.filter(post => post.userId === userId);
+      return res.json(filteredPosts);
+    }
+
     const links = [
       {
         href: "posts/:id",
@@ -76,5 +85,11 @@ router
     if (post) res.json(post);
     else next();
   });
+
+
+
+
+
+  
 
 module.exports = router;

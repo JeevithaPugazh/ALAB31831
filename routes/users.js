@@ -3,6 +3,7 @@ const router = express.Router();
 
 const users = require("../data/users");
 const error = require("../utilities/error");
+const posts = require("../data/posts");
 
 router
   .route("/")
@@ -80,5 +81,17 @@ router
     if (user) res.json(user);
     else next();
   });
+
+//lab Part 2: Adding Additional Routes
+//GET /api/users/:id/posts
+router.route('/:id/posts').get((req,res,next)=>{
+  const postId = parseInt(req.params.id);
+  const userPosts = posts.filter(post => post.userId === postId);
+  res.json(userPosts);
+}) 
+
+
+
+
 
 module.exports = router;
